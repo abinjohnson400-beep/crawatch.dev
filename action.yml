@@ -1,5 +1,5 @@
 name: 'CRA Watch scan'
-description: 'First release. Scans any of 19 lockfile formats (or a CycloneDX/SPDX SBOM) against OSV and the CISA Known Exploited Vulnerabilities catalog. Fails the build only when a dependency is on the exploited list, the trigger for the EU Cyber Resilience Act's 24-hour early warning (Article 14). Free, no account, no token.'
+description: 'Fail the build when a dependency in your lockfile is on the CISA exploited list. For the EU CRA 24-hour clock. Free.'
 author: 'CRA Watch'
 branding:
   icon: 'shield'
