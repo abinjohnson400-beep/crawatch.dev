@@ -1,0 +1,43 @@
+name: 'CRA Watch scan'
+description: 'Fail the build if a dependency in your lockfile is on the CISA Known Exploited Vulnerabilities list. Free, no token. For the EU Cyber Resilience Act 24-hour clock.'
+author: 'CRA Watch'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  lockfile:
+    description: 'Path to the lockfile to scan (package-lock.json, pnpm-lock.yaml, yarn.lock, Cargo.lock, go.sum, Gemfile.lock, poetry.lock, composer.lock, Package.resolved, gradle.lockfile, packages.lock.json, or a CycloneDX/SPDX SBOM).'
+    required: true
+  fail-on:
+    description: 'kev (default): fail only when a dependency is on the CISA exploited list. any: fail on any known vulnerability. none: report only.'
+    required: false
+    default: 'kev'
+outputs:
+  kev:
+    description: 'Number of dependencies on the CISA exploited list.'
+    value: ${{ steps.scan.outputs.kev }}
+  findings:
+    description: 'Number of known vulnerabilities.'
+    value: ${{ steps.scan.outputs.findings }}
+  share:
+    description: 'Link to the scan result page.'
+    value: ${{ steps.scan.outputs.share }}
+runs:
+  using: 'composite'
+  steps:
+    - id: scan
+      shell: bash
+      run: |
+        set +e
+        node "${{ github.action_path }}/crawatch.mjs" "${{ inputs.lockfile }}" --fail-on "${{ inputs.fail-on }}" --json > result.json
+        code=$?
+        node -e '
+          const r = JSON.parse(require("fs").readFileSync("result.json","utf8"));
+          const out = process.env.GITHUB_OUTPUT;
+          require("fs").appendFileSync(out, `kev=${r.kev}\nfindings=${r.findings}\nshare=${r.share}\n`);
+          console.log(`${r.file}: ${r.packages} packages, ${r.findings} known vulnerabilities, ${r.kev} on the CISA exploited list`);
+          for (const f of (r.result.findings||[]).filter(f=>f.kev)) console.log(`  KEV ${f.package}@${f.version} ${f.cve||f.id}${f.fixed?` fixed in ${f.fixed}`:""}`);
+          console.log(`  ${r.share}`);
+          if (r.kev) console.log("::warning::A dependency is on the CISA exploited list. Under CRA Article 14 the 24-hour early warning may be running: https://crawatch.dev/docs/cra-first-24-hours");
+        '
+        exit $code

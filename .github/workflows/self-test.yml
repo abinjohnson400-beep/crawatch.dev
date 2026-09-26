@@ -1,0 +1,14 @@
+# Runs the action on a one-line requirements.txt, so the Marketplace page
+# shows a passing check.
+name: self-test
+on: [push, workflow_dispatch]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: printf 'requests==2.31.0\n' > requirements.txt
+      - uses: ./
+        with:
+          lockfile: requirements.txt
+          fail-on: kev

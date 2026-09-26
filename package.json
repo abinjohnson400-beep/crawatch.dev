@@ -1,14 +1,15 @@
 {
   "name": "crawatch",
-  "version": "1.0.0",
-  "description": "Scan a lockfile against OSV and the CISA Known Exploited Vulnerabilities list. Free, no account. For the EU Cyber Resilience Act's 24-hour clock.",
+  "version": "1.0.1",
+  "description": "Fail the build when a dependency in your lockfile is on the CISA Known Exploited Vulnerabilities list. Scans against OSV too. Free, no account, no token. For the EU Cyber Resilience Act's 24-hour reporting clock.",
   "bin": { "crawatch": "./crawatch.mjs" },
   "type": "module",
-  "files": ["crawatch.mjs", "README.md"],
+  "files": ["crawatch.mjs", "README.md", "LICENSE"],
   "engines": { "node": ">=18" },
-  "keywords": ["cra", "cyber-resilience-act", "kev", "cisa", "osv", "sbom", "vulnerabilities", "lockfile", "security"],
+  "keywords": ["cyber-resilience-act", "eu-cra", "cisa-kev", "known-exploited-vulnerabilities", "osv", "sbom", "vulnerability-scanner", "lockfile", "supply-chain-security", "security", "ci", "github-action", "enisa"],
   "homepage": "https://crawatch.dev",
-  "repository": { "type": "git", "url": "https://github.com/crawatch/cli" },
+  "repository": { "type": "git", "url": "git+https://github.com/abinjohnson400-beep/crawatch.dev.git" },
+  "bugs": { "url": "https://github.com/abinjohnson400-beep/crawatch.dev/issues" },
   "license": "MIT",
   "author": "CRA Watch <hello@crawatch.dev>"
 }

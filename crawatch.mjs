@@ -40,8 +40,8 @@ for (const file of files) {
   try {
     res = await fetch(`${SITE}/api/scan`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', 'user-agent': 'crawatch-cli/1.0 (+https://crawatch.dev)' },
-      body: JSON.stringify({ filename: path.basename(file), content }),
+      headers: { 'content-type': 'application/json', 'user-agent': 'crawatch-cli/1.0.1 (+https://crawatch.dev)' },
+      body: JSON.stringify({ filename: path.basename(file), content, ref: process.env.GITHUB_ACTIONS ? 'action' : 'cli' }),
     });
     body = await res.json();
   } catch (e) { console.error(`${file}: could not reach ${SITE}: ${e.message}`); process.exit(2); }
