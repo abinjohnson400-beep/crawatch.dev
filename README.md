@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: abinjohnson400-beep/crawatch.dev@v1
+      - uses: abinjohnson400-beep/crawatch.dev@v2
         with:
           lockfile: package-lock.json
           fail-on: kev        # kev (default) | any | none
